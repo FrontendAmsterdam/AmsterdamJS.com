@@ -11,7 +11,6 @@
 	align-content: flex-start
 	display: flex
 	flex-wrap: wrap
-	height: 100vh
 
 	&__content
 		position: absolute
@@ -30,14 +29,16 @@
 			font-size: 68px
 	&__item
 		margin: 0 0 -1px
-		height: 33.3vh
+		height: calc((100vw / 4) - 30px)
 		display: block
 		position: relative
 		+hover
 			.m-grid__content
 				opacity: 1
+		+tablet
+			height: calc((100vw / 4) - 10px)
 		+sm
-			height: 25vh
+			height: calc(100vw / 1.65)
 		.video
 			position: absolute
 			width: 100%
