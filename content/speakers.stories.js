@@ -1,6 +1,7 @@
-const { prepareSpeakers } = require('./utils');
+import React from 'react';
+import { Query } from '@focus-reactive/storybook-addon-graphcms';
 
-export const queryPages = /* GraphQL */ `
+const queryPages = /* GraphQL */ `
   query($conferenceTitle: ConferenceTitle, $eventYear: EventYear) {
     conf: conferenceBrand(where: { title: $conferenceTitle }) {
       id
@@ -24,7 +25,6 @@ export const queryPages = /* GraphQL */ `
             mediumUrl
             ownSite
             companySite
-
             avatar {
               url(
                 transformation: {
@@ -40,21 +40,13 @@ export const queryPages = /* GraphQL */ `
   }
 `;
 
-const fetchData = async (client, vars) => {
-  const data = await client
-    .request(queryPages, vars)
-    .then(res => ({ speakers: res.conf.year[0].speakers, openForTalks: res.conf.year[0].openForTalks }));
-
-  const { openForTalks } = data;
-
-  const speakers = await prepareSpeakers(data.speakers);
-
-  return {
-    speakers: { main: await Promise.all(speakers) },
-    speakersBtn: openForTalks ? 'CALL FOR SPEAKERS' : false,
-  };
+export default {
+  title: 'JS Nation',
 };
 
-module.exports = {
-  fetchData,
-};
+export const speakers = Query({
+  name: 'Speakers',
+  queryPages,
+  vars: { org: 'storybookjs' },
+  searchVars: { user: 'UsulPro' },
+});
