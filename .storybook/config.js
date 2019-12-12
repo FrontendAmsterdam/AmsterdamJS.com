@@ -1,9 +1,9 @@
 import { configure, addDecorator } from '@storybook/react';
 import { withGraphCMS } from '@focus-reactive/storybook-addon-graphcms';
-import '@storybook/addon-console';
+// import '@storybook/addon-console';
 
-const CMS_TOKEN = 'ADD-TOKEN';
-const CMS_ENDPOINT = 'ADD-ENDPOINT';
+const CMS_TOKEN = process.env.CMS_TOKEN;
+const CMS_ENDPOINT = process.env.CMS_ENDPOINT;
 
 addDecorator(
   withGraphCMS({
