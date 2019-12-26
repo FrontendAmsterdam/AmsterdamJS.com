@@ -1,53 +1,38 @@
-import React from 'react';
-import { Query } from '@focus-reactive/storybook-addon-graphcms';
-import { credentials, conferenceTitle, eventYear } from './config';
+const React = require('react');
+const {
+  Query,
+  withGraphCMS,
+} = require('@focus-reactive/storybook-addon-graphcms');
+const { storiesOf } = require('@storybook/react');
 
-const queryPages = /* GraphQL */ `
-  query($conferenceTitle: ConferenceTitle, $eventYear: EventYear) {
-    result: conferenceBrand(where: { title: $conferenceTitle }) {
-      id
-      status
-      year: conferenceEvents(where: { year: $eventYear }) {
-        id
-        status
-        openForTalks
-        speakers: pieceOfSpeakerInfoes {
-          status
-          id
-          label
-          speaker {
-            id
-            name
-            company
-            country
-            bio
-            githubUrl
-            twitterUrl
-            mediumUrl
-            ownSite
-            companySite
-            avatar {
-              url(
-                transformation: {
-                  image: { resize: { width: 500, height: 500, fit: crop } }
-                  document: { output: { format: jpg } }
-                }
-              )
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+const { credentials, conferenceTitle, eventYear } = require('./config');
+const { queriesData, getContent } = require('./index');
 
-export default {
-  title: 'JS Nation',
+const allStories = {};
+
+const addContentStory = async () => {
+  const content = await getContent();
+  storiesOf('Content Data', module).add('info', () => (
+    <div>{JSON.stringify(content)}</div>
+  ));
 };
 
-export const speakers = Query({
-  name: 'Speakers',
-  query: queryPages,
-  vars: { conferenceTitle, eventYear },
-  searchVars: { user: 'UsulPro' },
+addContentStory();
+
+queriesData.forEach(({ queryPages, getData, story }) => {
+  allStories[story] = Query({
+    name: story,
+    query: queryPages,
+    vars: { conferenceTitle, eventYear },
+    searchVars: { search: '' },
+    getData,
+  });
 });
+
+module.exports = {
+  default: {
+    title: 'JS Nation',
+    decorators: [withGraphCMS(credentials)],
+  },
+  ...allStories,
+};

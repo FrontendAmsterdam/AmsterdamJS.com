@@ -1,6 +1,6 @@
 const { prepareSpeakers } = require('./utils');
 
-export const queryPages = /* GraphQL */ `
+const queryPages = /* GraphQL */ `
   query($conferenceTitle: ConferenceTitle, $eventYear: EventYear) {
     conf: conferenceBrand(where: { title: $conferenceTitle }) {
       id
@@ -57,4 +57,7 @@ const fetchData = async (client, vars) => {
 
 module.exports = {
   fetchData,
+  queryPages,
+  getData: data => data.conf.year[0].speakers,
+  story: 'speakers',
 };
