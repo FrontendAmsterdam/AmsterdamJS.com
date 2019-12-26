@@ -18,7 +18,7 @@ const queryPages = /* GraphQL */ `
             url(
               transformation: {
                 image: { resize: { width: 700 } },
-                document: { output: { format: jpg } } 
+                document: { output: { format: jpg } }
               }
             )
           }
@@ -51,4 +51,7 @@ const fetchData = async(client, vars) => {
 
 module.exports = {
   fetchData,
+  queryPages,
+  getData: data => data.conf.year[0].jobs,
+  story: 'Jobs',
 };

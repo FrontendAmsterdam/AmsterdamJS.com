@@ -74,6 +74,7 @@
     "lodash": "^4.17.15",
     "lost": "^7.1.0",
     "postcss-csso": "^3.0.0",
+    "react-json-view": "^1.19.1",
     "remark-html": "^10.0.0",
     "remark-parse": "^7.0.1",
     "require-dir": "^1.0.0",

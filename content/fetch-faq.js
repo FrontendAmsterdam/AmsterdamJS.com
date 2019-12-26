@@ -1,6 +1,6 @@
 const { markdownToHtml } = require('./markdown');
 
-const queryTexts = /* GraphQL */ `
+const queryPages = /* GraphQL */ `
   query($conferenceTitle: ConferenceTitle, $eventYear: EventYear) {
     conf: conferenceBrand(where: { title: $conferenceTitle }) {
       id
@@ -21,7 +21,7 @@ const queryTexts = /* GraphQL */ `
 
 const fetchData = async (client, vars) => {
   const faqsRow = await client
-    .request(queryTexts, vars)
+    .request(queryPages, vars)
     .then(res => res.conf.year[0].faqs);
 
   const faqsItems = await Promise.all(
@@ -46,4 +46,7 @@ const fetchData = async (client, vars) => {
 
 module.exports = {
   fetchData,
+  queryPages,
+  getData: data => data.conf.year[0].faqs,
+  story: 'FAQ',
 };

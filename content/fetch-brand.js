@@ -36,4 +36,7 @@ const fetchData = async(client, vars) => {
 
 module.exports = {
   fetchData,
+  queryPages,
+  getData: data => data.conf,
+  story: 'brand',
 };

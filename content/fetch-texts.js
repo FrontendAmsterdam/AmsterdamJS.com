@@ -5,7 +5,7 @@ const renderStyles = {
   Standard_Markdown: 'Standard_Markdown',
 };
 
-const queryTexts = /* GraphQL */ `
+const queryPages = /* GraphQL */ `
   query($conferenceTitle: ConferenceTitle, $eventYear: EventYear) {
     conf: conferenceBrand(where: { title: $conferenceTitle }) {
       id
@@ -35,7 +35,7 @@ const markdownRender = async (text, style) => {
 
 const fetchData = async(client, vars) => {
   const pieceOfTexts = await client
-    .request(queryTexts, vars)
+    .request(queryPages, vars)
     .then(res => res.conf.year[0].pieceOfTexts);
 
   const pieceOfHTMLs = await Promise.all(
@@ -59,4 +59,7 @@ const fetchData = async(client, vars) => {
 
 module.exports = {
   fetchData,
+  queryPages,
+  getData: data => data.conf.year[0].pieceOfTexts,
+  story: 'texts',
 };

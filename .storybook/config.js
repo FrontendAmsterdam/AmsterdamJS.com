@@ -1,5 +1,20 @@
-const { configure, addDecorator } = require('@storybook/react');
-const { withGraphCMS } = require('@focus-reactive/storybook-addon-graphcms');
-// import '@storybook/addon-console';
+const { configure, addParameters } = require('@storybook/react');
+import { create } from '@storybook/theming';
+require('@storybook/addon-console');
+
+const theme = create({
+  base: 'light',
+  colorSecondary: '#ff2407',
+  brandTitle: 'GitNation',
+  brandUrl: 'https://gitnation.org/',
+  brandImage: 'https://jsnation.com/img/face.svg',
+});
+
+
+addParameters({
+  options: {
+    theme,
+  },
+});
 
 configure(require.context('../content', true, /\.stories\.js$/), module);
