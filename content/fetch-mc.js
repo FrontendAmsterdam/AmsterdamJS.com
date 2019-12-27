@@ -1,3 +1,5 @@
+const { prepareSpeakers } = require('./utils');
+
 const queryPages = /* GraphQL */ `
   query($conferenceTitle: ConferenceTitle, $eventYear: EventYear) {
     conf: conferenceBrand(where: { title: $conferenceTitle }) {
@@ -11,12 +13,23 @@ const queryPages = /* GraphQL */ `
           speaker {
             id
             name
-            bio
             company
             country
-            companySite
+            bio
             githubUrl
             twitterUrl
+            mediumUrl
+            ownSite
+            companySite
+
+            avatar {
+              url(
+                transformation: {
+                  image: { resize: { width: 500, height: 500, fit: crop } },
+                  document: { output: { format: jpg } }
+                }
+              )
+            }
           }
         }
       }
@@ -29,10 +42,10 @@ const fetchData = async(client, vars) => {
     .request(queryPages, vars)
     .then(res => res.conf.year[0].mcs);
 
-  const mcs = data.map(m => ({ ...m.speaker }));
+  const mcs = await prepareSpeakers(data);
 
   return {
-    mcs,
+    mcs: await Promise.all(mcs),
   };
 };
 

@@ -1,18 +1,10 @@
 <section class="team-horizontal">
   <div class="wrapper">
-    <div class="team-horizontal__title title">{{teamHorizontal.title}}</div>
+    <div class="team-horizontal__title title">{{pages[pageKey].pageSections.mcSection.title}}</div>
     <div class="team-horizontal__inner">
-      {% for item in teamHorizontal.items %}
+      {% for person in mcs %}
       <div class="team-horizontal__item">
-        {{mixins.teammate({
-        mod: 'teammate_horizontal',
-        img: item.img,
-        name: item.name,
-        company: item.company,
-        info: item.info,
-        socials: item.socials,
-        decor: item.decor
-        })}}
+        {{mixins.teammate(person, 'teammate_horizontal')}}
       </div>
       {% endfor %}
     </div>

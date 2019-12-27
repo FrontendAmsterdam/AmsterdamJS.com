@@ -1,0 +1,12 @@
+<section class="team committee" id="committee">
+  <div class="wrapper">
+    <div class="team__title title committee__title">{{ pages.main.pageSections.committee.title }}</div>
+    <div class="team__inner">
+      {% for item in speakers.committee %}
+      <div class="team__item">
+        {{mixins.teammate(item)}}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
