@@ -96,8 +96,7 @@ performancesTeam: [{
   {% include "partials/_media.html" %}
   {% include "partials/_team.html" %}
   {% include "partials/_submit.html" %}
-  {% include "partials/_hosts.html" %}
-  {% include "partials/_committee.html" %}
+  {# {% include "partials/_hosts.html" %} #}
   <div class="bg-red">
     {% include "partials/_map-section.html" %}
     {% include "partials/_subscribe.html" %}
@@ -112,9 +111,7 @@ performancesTeam: [{
   descrMod: 'info-section__descr_lg'
   })}}
   {% include "partials/_performances.html" %}
-  {% if schedule.length %}
-    {% include "partials/_schedule.html" %}
-  {% endif %}
+  {% include "partials/_schedule.html" %}
   {% include "partials/_awards.html" %}
   {% include "partials/_nominations.html" %}
   {% include "partials/_progress.html" %}

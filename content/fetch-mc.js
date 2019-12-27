@@ -27,10 +27,10 @@ const fetchData = async(client, vars) => {
     .request(queryPages, vars)
     .then(res => res.conf.year[0].mcs);
 
-  const mcs = await prepareSpeakers(data);
+  const mcs = data.map(m => ({ ...m.speaker }));
 
   return {
-    mcs: await Promise.all(mcs),
+    mcs,
   };
 };
 
