@@ -1,4 +1,5 @@
 const { markdownToHtml } = require('./markdown');
+const { jobLogoFragment } = require('./fragments');
 
 const queryPages = /* GraphQL */ `
   query($conferenceTitle: ConferenceTitle, $eventYear: EventYear) {
@@ -14,19 +15,14 @@ const queryPages = /* GraphQL */ `
           slogan
           subtitle
           description
-          image {
-            url(
-              transformation: {
-                image: { resize: { width: 700 } },
-                document: { output: { format: jpg } }
-              }
-            )
-          }
+          ...logo
           link
         }
       }
     }
   }
+
+  ${jobLogoFragment}
 `;
 
 const fetchData = async(client, vars) => {

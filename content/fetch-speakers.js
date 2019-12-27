@@ -1,4 +1,5 @@
 const { prepareSpeakers } = require('./utils');
+const { speakerInfoFragment } = require('./fragments');
 
 const queryPages = /* GraphQL */ `
   query($conferenceTitle: ConferenceTitle, $eventYear: EventYear) {
@@ -10,40 +11,22 @@ const queryPages = /* GraphQL */ `
         status
         openForTalks
         speakers: pieceOfSpeakerInfoes {
-          status
-          id
-          label
-          speaker {
-            id
-            name
-            company
-            country
-            bio
-            githubUrl
-            twitterUrl
-            mediumUrl
-            ownSite
-            companySite
-
-            avatar {
-              url(
-                transformation: {
-                  image: { resize: { width: 500, height: 500, fit: crop } },
-                  document: { output: { format: jpg } }
-                }
-              )
-            }
-          }
+          ...speakerInfo
         }
       }
     }
   }
+
+  ${speakerInfoFragment}
 `;
 
 const fetchData = async (client, vars) => {
   const data = await client
     .request(queryPages, vars)
-    .then(res => ({ speakers: res.conf.year[0].speakers, openForTalks: res.conf.year[0].openForTalks }));
+    .then(res => ({
+      speakers: res.conf.year[0].speakers,
+      openForTalks: res.conf.year[0].openForTalks,
+    }));
 
   const { openForTalks } = data;
 

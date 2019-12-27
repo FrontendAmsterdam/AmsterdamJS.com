@@ -1,6 +1,6 @@
 const { markdownToHtml } = require('./markdown');
 const { prepareSpeakers } = require('./utils');
-const { speakerFragment } = require('./fragments');
+const { speakerInfoFragment } = require('./fragments');
 
 const queryPages = /* GraphQL */ `
   query ($conferenceTitle: ConferenceTitle, $eventYear: EventYear) {
@@ -26,7 +26,7 @@ const queryPages = /* GraphQL */ `
             speaker {
               name
               info: pieceOfSpeakerInfoes(where: {conferenceEvent: {year: $eventYear, conferenceBrand: {title: $conferenceTitle}}}) {
-                ...speaker
+                ...speakerInfo
               }
             }
           }
@@ -35,7 +35,7 @@ const queryPages = /* GraphQL */ `
     }
   }
 
-  ${speakerFragment}
+  ${speakerInfoFragment}
 `;
 
 const fetchData = async (client, vars) => {

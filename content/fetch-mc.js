@@ -1,4 +1,5 @@
 const { prepareSpeakers } = require('./utils');
+const { personFragment } = require('./fragments');
 
 const queryPages = /* GraphQL */ `
   query($conferenceTitle: ConferenceTitle, $eventYear: EventYear) {
@@ -11,30 +12,14 @@ const queryPages = /* GraphQL */ `
         mcs {
           id
           speaker {
-            id
-            name
-            company
-            country
-            bio
-            githubUrl
-            twitterUrl
-            mediumUrl
-            ownSite
-            companySite
-
-            avatar {
-              url(
-                transformation: {
-                  image: { resize: { width: 500, height: 500, fit: crop } },
-                  document: { output: { format: jpg } }
-                }
-              )
-            }
+          ...person
           }
         }
       }
     }
   }
+
+  ${personFragment}
 `;
 
 const fetchData = async(client, vars) => {

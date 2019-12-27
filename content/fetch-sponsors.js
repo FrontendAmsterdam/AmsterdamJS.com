@@ -1,3 +1,5 @@
+const { sponsorLogoFragment } = require('./fragments');
+
 const queryPages = /* GraphQL */ `
   query($conferenceTitle: ConferenceTitle, $eventYear: EventYear) {
     conf: conferenceBrand(where: { title: $conferenceTitle }) {
@@ -12,7 +14,7 @@ const queryPages = /* GraphQL */ `
           category
           order
           avatar {
-            url
+            ...imageUrl
           }
           sponsor {
             id
@@ -20,7 +22,7 @@ const queryPages = /* GraphQL */ `
             title
             site
             avatar {
-              url
+              ...imageUrl
             }
           }
           width
@@ -28,6 +30,8 @@ const queryPages = /* GraphQL */ `
       }
     }
   }
+
+  ${sponsorLogoFragment}
 `;
 
 const sortByOrder = (a, b) => {
@@ -100,5 +104,5 @@ module.exports = {
   fetchData,
   queryPages,
   getData: res => res.conf.year[0].sponsors,
-  story: 'sponsors'
+  story: 'sponsors',
 };
